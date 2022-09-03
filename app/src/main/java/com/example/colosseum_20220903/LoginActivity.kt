@@ -28,7 +28,7 @@ class LoginActivity : BaseActivity() {
             val inputEmail = binding.emailEdt.text.toString()
             val inputPw = binding.passwordEdt.text.toString()
 
-            ServerUtil.postRequestLogin(inputEmail, inputPw, object :ServerUtil.JasonResponseHandler{
+            ServerUtil.postRequestLogin(inputEmail, inputPw, object :ServerUtil.JsonResponseHandler{
                 override fun onResponse(jsonObj: JSONObject) {
                     val code = jsonObj.getInt("code")
                     val message = jsonObj.getString("message")

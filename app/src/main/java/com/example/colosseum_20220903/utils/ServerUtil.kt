@@ -47,7 +47,7 @@ class ServerUtil {
 
         }
 
-        fun getRequestCheckDup(type:String, value:String, handler:JsonResponseHandler){
+        fun getRequestCheckDup(type:String, value:String, handler:JsonResponseHandler) {
             val urlBuilder = "${BASE_URL}/user_check".toHttpUrlOrNull()!!.newBuilder()
                 .addEncodedQueryParameter("type",type)
                 .addEncodedQueryParameter("value",value)
@@ -75,6 +75,30 @@ class ServerUtil {
                 }
             })
 
+        }
+
+        fun putRequestSignUp(email : String, pw : String, nick : String, handler : JsonResponseHandler?){
+            val urlString = "${BASE_URL}/user"
+            val formBody = FormBody.Builder()
+                .add("email", email)
+                .add("password", pw)
+                .add("nick_name", nick)
+                .build()
+            val request = Request.Builder()
+                .url(urlString)
+                .put(formBody)
+                .build()
+            val client = OkHttpClient()
+            client.newCall(request).enqueue(object : Callback{
+                override fun onFailure(call: Call, e: IOException) {
+
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    val jsonObj = JSONObject(response.body!!.string())
+                    handler?.onResponse(jsonObj)
+                }
+            })
         }
     }
 
