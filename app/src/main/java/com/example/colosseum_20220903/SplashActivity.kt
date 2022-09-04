@@ -1,7 +1,6 @@
 package com.example.colosseum_20220903
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -52,6 +51,6 @@ class SplashActivity : BaseActivity() {
                 startActivity(myIntent)
                 finish()
             }
-        }2500)
+        },2500)
     }
 }
