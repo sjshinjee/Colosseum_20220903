@@ -94,7 +94,10 @@ class LoginActivity : BaseActivity() {
 //                }
 //            })
         }
-        binding.signUpBtn.setOnClickListener {  }
+        binding.signUpBtn.setOnClickListener {
+            val myIntent = Intent(mContext, SignUpActivity::class.java)
+            startActivity(myIntent)
+        }
 
     }
 

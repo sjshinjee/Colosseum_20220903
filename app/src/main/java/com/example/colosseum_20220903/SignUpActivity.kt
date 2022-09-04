@@ -3,6 +3,7 @@ package com.example.colosseum_20220903
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import com.example.colosseum_20220903.databinding.ActivityLoginBinding
 import com.example.colosseum_20220903.databinding.ActivitySignUpBinding
@@ -14,6 +15,7 @@ class SignUpActivity : BaseActivity() {
     lateinit var binding : ActivitySignUpBinding
 
     var isEmailOk = false
+    var isNickOk = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +38,14 @@ class SignUpActivity : BaseActivity() {
             checkDupllicate("NICK_NAME", inputNick)
         }
 
+        binding.emailEdt.addTextChangedListener {
+            isEmailOk = false
+        }
+
+        binding.nickEdt.addTextChangedListener {
+            isNickOk = false
+        }
+
         binding.signUpBtn.setOnClickListener {
             val inputEmail = binding.emailEdt.text.toString()
             val inputPw = binding.passwordEdt.text.toString()
@@ -56,6 +66,10 @@ class SignUpActivity : BaseActivity() {
                 return@setOnClickListener
             }
 //      4 이메일/닉네임 중복체크 여부 확인
+            if(!isEmailOk || !isNickOk){
+                Toast.makeText(mContext, "중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
 //      5 실제 회원가입 처리
             ServerUtil.putRequestSignUp(
@@ -68,7 +82,7 @@ class SignUpActivity : BaseActivity() {
                             val userObj = dataObj.getJSONObject("user")
                             val nick = userObj.getString("nick_name")
                             runOnUiThread {
-                                Toast.makeText(mContext, "${nick}님 가입을 환영합니다", Toast.LENGTH_SHORT).show()\
+                                Toast.makeText(mContext, "${nick}님 가입을 환영합니다", Toast.LENGTH_SHORT).show()
                                 finish()
                             }
                         }
@@ -92,7 +106,15 @@ class SignUpActivity : BaseActivity() {
     fun checkDupllicate(type : String, value : String){
         ServerUtil.getRequestCheckDup(type, value, object : ServerUtil.JsonResponseHandler{
             override fun onResponse(jsonObj: JSONObject) {
+                val code = jsonObj.getInt("code")
                 val message = jsonObj.getString("message")
+
+                if (code == 200){
+                    when (type){
+                        "EMAIL" -> isEmailOk = true
+                        "NICK_NAME" -> isNickOk = true
+                    }
+                }
 
                 runOnUiThread {
                     Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
