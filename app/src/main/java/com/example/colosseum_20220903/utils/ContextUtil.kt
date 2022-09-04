@@ -18,7 +18,7 @@ class ContextUtil {
 
         fun getLoginToken (context: Context) : String {
             val pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
-            pref.getString(LOGIN_TOKEN, "")!!
+            return pref.getString(LOGIN_TOKEN, "")!!
         }
 
         fun setAutoLogin (context: Context, autoLogin : Boolean){

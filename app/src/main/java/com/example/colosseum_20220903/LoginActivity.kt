@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.colosseum_20220903.databinding.ActivityLoginBinding
+import com.example.colosseum_20220903.utils.ContextUtil
 import com.example.colosseum_20220903.utils.ServerUtil
 import okhttp3.*
 import org.json.JSONObject
@@ -37,6 +38,11 @@ class LoginActivity : BaseActivity() {
                         val dataObj = jsonObj.getJSONObject("data")
                         val userObj = dataObj.getJSONObject("user")
                         val nick = userObj.getString("nick_name")
+                        val token = dataObj.getString("token")
+
+                        ContextUtil.setLoginToken(mContext,token)
+
+                        ContextUtil.setAutoLogin(mContext, binding.autoLoginCb.isChecked)
 
                         runOnUiThread {
                             Toast.makeText(mContext, "${nick}님 환영합니다", Toast.LENGTH_SHORT).show()

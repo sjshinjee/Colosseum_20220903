@@ -1,11 +1,57 @@
 package com.example.colosseum_20220903
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import com.example.colosseum_20220903.utils.ContextUtil
+import com.example.colosseum_20220903.utils.ServerUtil
+import org.json.JSONObject
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BaseActivity() {
+
+    var isTokenOk = false
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+    }
+
+    override fun setupEvents() {
+        val token = ContextUtil.getLoginToken(mContext)
+        ServerUtil.getRequestUserInfo(token, object : ServerUtil.JsonResponseHandler{
+            override fun onResponse(jsonObj: JSONObject) {
+                val code = jsonObj.getInt("code")
+
+                if(code == 200){
+                    isTokenOk = true
+                }
+                else{
+                    isTokenOk = false
+                }
+            }
+        })
+    }
+
+    override fun setValues() {
+        val myHandler = Handler(Looper.getMainLooper())
+        myHandler.postDelayed({
+//            1 토큰이 유효한가
+//            2 사용자가 실제로 자동로그인 체크를 했는가
+//            이 두 검사를 한꺼번에 하자
+            val isAutoLogin = ContextUtil.getAutoLogin(mContext)
+            if(isTokenOk && isAutoLogin){
+                val myIntent = Intent(mContext, MainActivity::class.java)
+                startActivity(myIntent)
+                finish()
+            }
+            else{
+                val myIntent = Intent(mContext, LoginActivity::class.java)
+                startActivity(myIntent)
+                finish()
+            }
+        }2500)
     }
 }
