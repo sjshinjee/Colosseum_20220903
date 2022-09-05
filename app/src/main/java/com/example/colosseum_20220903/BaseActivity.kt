@@ -14,6 +14,10 @@ abstract class BaseActivity : AppCompatActivity() {
 
     lateinit var mContext: Context
 
+    lateinit var titleTxt : TextView
+    lateinit var backIcon : ImageView
+    lateinit var profileIcon : ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("onCreate함수 상태", "실행됨")
@@ -32,10 +36,10 @@ abstract class BaseActivity : AppCompatActivity() {
         val myToolbar = defaultActionBar.customView.parent as Toolbar
         myToolbar.setContentInsetsAbsolute(0,0)
 
-        val titleTxt = defaultActionBar.customView.findViewById<TextView>(R.id.titleTxt)
-        val backBtn = defaultActionBar.customView.findViewById<ImageView>(R.id.backIcon)
-        val prifileIcon = defaultActionBar.customView.findViewById<ImageView>(R.id.profileIcon)
+         titleTxt = defaultActionBar.customView.findViewById(R.id.titleTxt)
+         backIcon = defaultActionBar.customView.findViewById(R.id.backIcon)
+         profileIcon = defaultActionBar.customView.findViewById(R.id.profileIcon)
 
-        prifileIcon.visibility = View.VISIBLE
+        profileIcon.visibility = View.VISIBLE
     }
 }

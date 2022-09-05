@@ -47,12 +47,15 @@ class MainActivity : BaseActivity() {
             startActivity(myIntent)
             finish()
         }
-
+        profileIcon.setOnClickListener {
+            val myIntent = Intent()
+        }
     }
 
 
     override fun setValues() {
-         setCustomActionBar()
+         profileIcon.visibility = View.VISIBLE
+         backIcon.visibility = View.VISIBLE
          getTopicListFromServer()
 
         mTopicAdapter = TopicRecyclerAdapter(mContext, mTopicList)
