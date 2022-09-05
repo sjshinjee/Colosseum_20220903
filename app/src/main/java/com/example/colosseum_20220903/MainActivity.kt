@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.colosseum_20220903.adapters.TopicRecyclerAdapter
@@ -47,6 +49,7 @@ class MainActivity : BaseActivity() {
 
 
     override fun setValues() {
+         setCustomActionBar()
          getTopicListFromServer()
 
         mTopicAdapter = TopicRecyclerAdapter(mContext, mTopicList)
@@ -95,4 +98,12 @@ class MainActivity : BaseActivity() {
             })
         }
 
+    fun setCustomActionBar (){
+        val defaultActionBar = supportActionBar!!
+        defaultActionBar.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
+        defaultActionBar.setCustomView(R.layout.custom_action_bar)
+
+        val myToolbar = defaultActionBar.customView.parent as Toolbar
+        myToolbar.setContentInsetsAbsolute(0,0)
+    }
 }
