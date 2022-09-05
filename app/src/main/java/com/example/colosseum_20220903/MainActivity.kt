@@ -34,7 +34,7 @@ class MainActivity : BaseActivity() {
         binding.logoutBtn.setOnClickListener {
             ContextUtil.clear(mContext)
 
-            GlobalData.loginUser = null
+//            GlobalData.loginUser = null
 
 //            ContextUtil.setLoginToken(mContext, "")
 
@@ -48,10 +48,17 @@ class MainActivity : BaseActivity() {
 
     override fun setValues() {
          getTopicListFromServer()
-         mTopicAdapter = TopicRecyclerAdapter(mContext, mTopicList)
+
+        mTopicAdapter = TopicRecyclerAdapter(mContext, mTopicList)
         binding.topicRecyclerView.adapter = mTopicAdapter
         binding.topicRecyclerView.layoutManager = LinearLayoutManager(mContext)
     }
+
+//    서버통신 하는거 그런데 서버통신해서 맨 아래 토픽리스트멤버변수에 토픽데이터 추가하는것보다
+///   어댑터 객체화가 더 빠른경우가 있다 그러면 토픽리스트에 들어가기전에 객체화가 되었기때문에 백그라운드 이미지가 빈칸이 뜸
+////  그래서 그 아래에 런온유아이스레드를 코드해줘야함 참고)서버와의 통신은 백그라운드에서 이뤄짐 즉 메인스레드는 백그라운드가 노는게 아님
+///// 백그라운드 맡겨놓고 메인스레드가 할 일이 없으면 바로 다음 코드로 넘어감 그래서 토픽리스트멤버변수가 받아오는 것보다 먼저 객체화 될 수 있음
+//////그래서 그런걸 대비해서 런온유아스레드 코드를 한 줄 적어주는거다
         fun getTopicListFromServer(){
             val token = ContextUtil.getLoginToken(mContext)
             ServerUtil.getRequestMainInfo(token, object : ServerUtil.JsonResponseHandler{
@@ -65,6 +72,19 @@ class MainActivity : BaseActivity() {
                     for(i in 0 until topicsArr.length()){
                         val topicObj = topicsArr.getJSONObject(i)
                         Log.d("받아낸 주제", topicObj.toString())
+
+                        val topicData = TopicData()
+
+                        topicData.id = topicObj.getInt("id")
+                        topicData.title = topicObj.getString("title")
+                        topicData.imageUrl = topicObj.getString("img_url")
+                        topicData.replyCount = topicObj.getInt("reply_count")
+                        mTopicList.add(topicData)
+                        runOnUiThread {
+//                            토픽리스트멤버변수에 한개의 토픽데이터를 넣는것보다 (서버통신)
+///                           토픽어댑터멤버변수를 먼저 객체화한 경우를 대비해서
+                            mTopicAdapter.notifyDataSetChanged()
+                        }
                     }
                 }
             })
