@@ -2,6 +2,7 @@ package com.example.colosseum_20220903
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
@@ -57,7 +58,6 @@ class SignUpActivity : BaseActivity() {
 //            4. 각 2가지 중복 검사를 모두 통과했나요?
 
 
-
 //      5 실제 회원가입 처리
             ServerUtil.putRequestSignUp(
                 inputEmail, inputPw, inputNick, object : ServerUtil.JsonResponseHandler{
@@ -87,7 +87,8 @@ class SignUpActivity : BaseActivity() {
     }
 
     override fun setValues() {
-
+        titleTxt.text = "회원 가입"
+        backIcon.visibility = View.VISIBLE
     }
 
     fun checkDupllicate(type : String, value : String, textView : TextView){

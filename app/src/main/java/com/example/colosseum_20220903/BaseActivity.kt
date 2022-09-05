@@ -40,6 +40,8 @@ abstract class BaseActivity : AppCompatActivity() {
          backIcon = defaultActionBar.customView.findViewById(R.id.backIcon)
          profileIcon = defaultActionBar.customView.findViewById(R.id.profileIcon)
 
-        profileIcon.visibility = View.VISIBLE
+        backIcon.setOnClickListener {
+            finish()
+        }
     }
 }
