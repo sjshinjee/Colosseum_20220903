@@ -16,19 +16,19 @@ class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        setupEvents()
+        setValues()
     }
 
     override fun setupEvents() {
+//        토큰값 유효성 검사
         val token = ContextUtil.getLoginToken(mContext)
         ServerUtil.getRequestUserInfo(token, object : ServerUtil.JsonResponseHandler{
             override fun onResponse(jsonObj: JSONObject) {
-                val code = jsonObj.getInt("code")
+            val code = jsonObj.getInt("code")
 
                 if(code == 200){
                     isTokenOk = true
-                }
-                else{
-                    isTokenOk = false
                 }
             }
         })
@@ -41,16 +41,15 @@ class SplashActivity : BaseActivity() {
 //            2 사용자가 실제로 자동로그인 체크를 했는가
 //            이 두 검사를 한꺼번에 하자
             val isAutoLogin = ContextUtil.getAutoLogin(mContext)
+
             if(isTokenOk && isAutoLogin){
                 val myIntent = Intent(mContext, MainActivity::class.java)
                 startActivity(myIntent)
-                finish()
-            }
-            else{
+            } else{
                 val myIntent = Intent(mContext, LoginActivity::class.java)
                 startActivity(myIntent)
-                finish()
             }
+
         },2500)
     }
 }

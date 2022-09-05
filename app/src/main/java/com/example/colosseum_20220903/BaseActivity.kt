@@ -22,7 +22,10 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.d("onCreate함수 상태", "실행됨")
         mContext = this
-        setCustomActionBar()
+
+        if(supportActionBar != null) {
+            setCustomActionBar()
+        }
     }
 
     abstract fun setupEvents()
