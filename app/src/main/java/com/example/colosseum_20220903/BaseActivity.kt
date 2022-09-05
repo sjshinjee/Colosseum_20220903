@@ -23,6 +23,7 @@ abstract class BaseActivity : AppCompatActivity() {
         Log.d("onCreate함수 상태", "실행됨")
         mContext = this
 
+        setCustomActionBar()
 //        if(supportActionBar != null) {
 //            setCustomActionBar()
 //        }

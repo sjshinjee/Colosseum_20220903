@@ -12,7 +12,6 @@ class SplashActivity : BaseActivity() {
 
     var isTokenOk = false
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -49,7 +48,7 @@ class SplashActivity : BaseActivity() {
                 val myIntent = Intent(mContext, LoginActivity::class.java)
                 startActivity(myIntent)
             }
-
+            finish()
         },2500)
     }
 }
