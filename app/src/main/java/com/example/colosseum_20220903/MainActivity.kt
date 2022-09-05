@@ -55,7 +55,7 @@ class MainActivity : BaseActivity() {
 
     override fun setValues() {
          profileIcon.visibility = View.VISIBLE
-         backIcon.visibility = View.VISIBLE
+
          getTopicListFromServer()
 
         mTopicAdapter = TopicRecyclerAdapter(mContext, mTopicList)

@@ -1,4 +1,4 @@
-package com.example.colosseum_20220903.utils
+package com.example.colosseum_20220903
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
