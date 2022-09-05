@@ -47,8 +47,10 @@ class MainActivity : BaseActivity() {
             startActivity(myIntent)
             finish()
         }
+        //내 정보화면으로 이동
         profileIcon.setOnClickListener {
-            val myIntent = Intent()
+            val myIntent = Intent(mContext, ProfileActivity::class.java)
+            startActivity(myIntent)
         }
     }
 
