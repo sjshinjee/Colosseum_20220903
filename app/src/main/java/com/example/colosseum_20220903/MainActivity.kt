@@ -101,18 +101,5 @@ class MainActivity : BaseActivity() {
             })
         }
 
-    fun setCustomActionBar (){
-        val defaultActionBar = supportActionBar!!
-        defaultActionBar.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        defaultActionBar.setCustomView(R.layout.custom_action_bar)
 
-        val myToolbar = defaultActionBar.customView.parent as Toolbar
-        myToolbar.setContentInsetsAbsolute(0,0)
-
-        val titleTxt = defaultActionBar.customView.findViewById<TextView>(R.id.titleTxt)
-        val backBtn = defaultActionBar.customView.findViewById<ImageView>(R.id.backIcon)
-        val prifileIcon = defaultActionBar.customView.findViewById<ImageView>(R.id.profileIcon)
-
-        prifileIcon.visibility = View.VISIBLE
-    }
 }
