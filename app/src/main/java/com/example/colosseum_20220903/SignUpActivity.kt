@@ -2,6 +2,7 @@ package com.example.colosseum_20220903
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
@@ -30,46 +31,32 @@ class SignUpActivity : BaseActivity() {
 
         binding.emailDupBtn.setOnClickListener {
             val inputEmail = binding.emailEdt.text.toString()
-            checkDupllicate("EMAIL", inputEmail)
+            checkDupllicate("EMAIL", inputEmail, binding.emailDupTxt)
         }
 
         binding.nickDupBtn.setOnClickListener {
             val inputNick = binding.nickEdt.text.toString()
-            checkDupllicate("NICK_NAME", inputNick)
+            checkDupllicate("NICK_NAME", inputNick, binding.nickDupTxt)
         }
 
-        binding.emailEdt.addTextChangedListener {
-            isEmailOk = false
-        }
-
-        binding.nickEdt.addTextChangedListener {
-            isNickOk = false
-        }
 
         binding.signUpBtn.setOnClickListener {
+            //            [도전 과제] 번호로 기록된 회원가입 분기처리 코드 작성하기
+//             - 해당 번호의 검사를 통화하지 못한다면 => 회원 가입 처리 진행 X
+//              - 회원 가입 처리 진행 X => signUpBtn 뛰쳐나간다. return@setOnClickListener
+
+//            1. 이메일이 공백인가요?
             val inputEmail = binding.emailEdt.text.toString()
+
+//            2. 비밀번호가 공백인가요?
             val inputPw = binding.passwordEdt.text.toString()
+
+//            3. 닉네임이 공백인가?
             val inputNick = binding.nickEdt.text.toString()
-//      1 이메일 공백 확인
-            if(inputEmail.isBlank()){
-                Toast.makeText(mContext, "이메일은 공백/빈칸일 수 없습니다", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-//      2 비밀번호 공백 확인
-            if(inputPw.isBlank()){
-                Toast.makeText(mContext, "비밀번호는 공백/빈칸일 수 없습니다", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-//      3 닉네임 공백 확인
-            if(inputNick.isBlank()){
-                Toast.makeText(mContext, "닉네임은 공백/빈칸일 수 없습니다", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-//      4 이메일/닉네임 중복체크 여부 확인
-            if(!isEmailOk || !isNickOk){
-                Toast.makeText(mContext, "중복검사를 진행해주세요", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+
+//            4. 각 2가지 중복 검사를 모두 통과했나요?
+
+
 
 //      5 실제 회원가입 처리
             ServerUtil.putRequestSignUp(
@@ -103,21 +90,14 @@ class SignUpActivity : BaseActivity() {
 
     }
 
-    fun checkDupllicate(type : String, value : String){
+    fun checkDupllicate(type : String, value : String, textView : TextView){
         ServerUtil.getRequestCheckDup(type, value, object : ServerUtil.JsonResponseHandler{
             override fun onResponse(jsonObj: JSONObject) {
                 val code = jsonObj.getInt("code")
                 val message = jsonObj.getString("message")
 
-                if (code == 200){
-                    when (type){
-                        "EMAIL" -> isEmailOk = true
-                        "NICK_NAME" -> isNickOk = true
-                    }
-                }
-
                 runOnUiThread {
-                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                    textView.text = message
                 }
             }
         })
