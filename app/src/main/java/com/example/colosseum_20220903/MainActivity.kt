@@ -73,12 +73,17 @@ class MainActivity : BaseActivity() {
                         val topicObj = topicsArr.getJSONObject(i)
                         Log.d("받아낸 주제", topicObj.toString())
 
-                        val topicData = TopicData()
+//                        토픽데이터클래스에서 해주므로 여기서는 객체화 안함
+//                        val topicData = TopicData()
+//
+//                        topicData.id = topicObj.getInt("id")
+//                        topicData.title = topicObj.getString("title")
+//                        topicData.imageUrl = topicObj.getString("img_url")
+//                        topicData.replyCount = topicObj.getInt("reply_count")
 
-                        topicData.id = topicObj.getInt("id")
-                        topicData.title = topicObj.getString("title")
-                        topicData.imageUrl = topicObj.getString("img_url")
-                        topicData.replyCount = topicObj.getInt("reply_count")
+//                      토픽데이터변수를 생성하고 컴패티언 객체를 활용해서 토픽데이터를 가져오는 작업
+                        val topicData = TopicData.getTopicDataFromJson(topicObj)
+//                      가져온 토픽데이터를 어레이 리스트에 추가
                         mTopicList.add(topicData)
                         runOnUiThread {
 //                            토픽리스트멤버변수에 한개의 토픽데이터를 넣는것보다 (서버통신)
