@@ -31,6 +31,9 @@ class ContextUtil {
             return pref.getBoolean(AUTO_LOGIN, false)
         }
 
+        fun clear(mContext: Context) {
+
+        }
 
 
     }
