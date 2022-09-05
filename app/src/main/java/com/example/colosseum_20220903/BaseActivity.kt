@@ -23,9 +23,9 @@ abstract class BaseActivity : AppCompatActivity() {
         Log.d("onCreate함수 상태", "실행됨")
         mContext = this
 
-        if(supportActionBar != null) {
-            setCustomActionBar()
-        }
+//        if(supportActionBar != null) {
+//            setCustomActionBar()
+//        }
     }
 
     abstract fun setupEvents()
@@ -39,9 +39,9 @@ abstract class BaseActivity : AppCompatActivity() {
         val myToolbar = defaultActionBar.customView.parent as Toolbar
         myToolbar.setContentInsetsAbsolute(0,0)
 
-         titleTxt = defaultActionBar.customView.findViewById(R.id.titleTxt)
-         backIcon = defaultActionBar.customView.findViewById(R.id.backIcon)
-         profileIcon = defaultActionBar.customView.findViewById(R.id.profileIcon)
+        titleTxt = defaultActionBar.customView.findViewById(R.id.titleTxt)
+        backIcon = defaultActionBar.customView.findViewById(R.id.backIcon)
+        profileIcon = defaultActionBar.customView.findViewById(R.id.profileIcon)
 
         backIcon.setOnClickListener {
             finish()
