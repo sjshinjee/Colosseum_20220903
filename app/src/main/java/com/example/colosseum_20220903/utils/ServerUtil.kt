@@ -120,6 +120,33 @@ class ServerUtil {
                 }
             })
         }
+
+        fun getRequestMainInfo(token: String, handler: JsonResponseHandler?){
+            val urlString = "${BASE_URL}/v2/main_info"
+
+            val request = Request.Builder()
+                .url(urlString)
+                .header("X-Http-Token", token)
+                .build()
+
+            val client = OkHttpClient()
+            client.newCall(request).enqueue(object : Callback{
+                override fun onFailure(call: Call, e: IOException) {
+
+                }
+
+//              사실 우리가 사용하는 액티비티에서 함수 사용하면서 쓸수 있는데 여기에 쓰는이유는
+//              왜 서버유틸에 찍냐면 jsonObj가 응답이 똑바로 왔는지 안왔는지 다 담고있다
+//              즉 200일때 400일때 다 담고있다 그래서 그냥 여기서 서버응답을 찍어보는거다
+                override fun onResponse(call: Call, response: Response) {
+                    val jsonObj = JSONObject(response.body!!.string())
+                    Log.d("main_info 서버응답", jsonObj.toString())
+                    handler?.onResponse(jsonObj)
+                }
+            })
+
+        }
+
     }
 
 }
