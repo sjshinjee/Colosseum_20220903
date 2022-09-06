@@ -16,6 +16,7 @@ import com.example.colosseum_20220903.databinding.ActivityMainBinding
 import com.example.colosseum_20220903.databinding.ActivitySignUpBinding
 import com.example.colosseum_20220903.datas.TopicData
 import com.example.colosseum_20220903.utils.ContextUtil
+import com.example.colosseum_20220903.utils.GlobalData
 import com.example.colosseum_20220903.utils.ServerUtil
 import org.json.JSONObject
 
@@ -36,8 +37,10 @@ class MainActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+//        로그아웃 클릭 이벤트
         binding.logoutBtn.setOnClickListener {
             ContextUtil.clear(mContext)
+            GlobalData.loginUser = null
 
 //            GlobalData.loginUser = null
 

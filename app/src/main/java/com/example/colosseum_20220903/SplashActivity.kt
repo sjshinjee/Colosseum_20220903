@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import com.example.colosseum_20220903.datas.UserData
 import com.example.colosseum_20220903.utils.ContextUtil
+import com.example.colosseum_20220903.utils.GlobalData
 import com.example.colosseum_20220903.utils.ServerUtil
 import org.json.JSONObject
 
@@ -28,6 +30,11 @@ class SplashActivity : BaseActivity() {
 
                 if(code == 200){
                     isTokenOk = true
+
+                    val dataObj = jsonObj.getJSONObject("data")
+                    val userObj = dataObj.getJSONObject("user")
+
+                    GlobalData.loginUser = UserData.getUserDataFromJsom(userObj)
                 }
             }
         })

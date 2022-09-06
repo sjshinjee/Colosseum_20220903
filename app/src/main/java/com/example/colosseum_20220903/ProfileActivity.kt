@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.colosseum_20220903.databinding.ActivityProfileBinding
+import com.example.colosseum_20220903.utils.GlobalData
 
 class ProfileActivity : BaseActivity(){
 
@@ -23,5 +24,6 @@ class ProfileActivity : BaseActivity(){
 
     override fun setValues() {
 // 닉네임을 표시하는 작업
+        binding.nickTxt.text = GlobalData.loginUser.nick
     }
 }
