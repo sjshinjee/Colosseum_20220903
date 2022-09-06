@@ -5,6 +5,7 @@ import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.json.JSONObject
 import java.io.IOException
+import java.text.Normalizer
 
 class ServerUtil {
     //    서버에 Request를 날리는 역할
@@ -176,6 +177,7 @@ class ServerUtil {
             })
         }
 
+//    메인 정보 불러오기
         fun getRequestMainInfo(token: String, handler: JsonResponseHandler?){
             val urlString = "${BASE_URL}/v2/main_info"
 
@@ -199,9 +201,36 @@ class ServerUtil {
                     handler?.onResponse(jsonObj)
                 }
             })
-
         }
 
+    //    닉네임 비밀번호 변경하는 이벤트 처리
+    fun patchRequestChangeProfile(token : String, nick : String, handler :JsonResponseHandler?){
+        val urlString = "${BASE_URL}/user"
+
+        val formBody = FormBody.Builder()
+            .add("nick_name", nick)
+            .build()
+
+        val request = Request.Builder()
+            .header("X-Http-Token", token)
+            .url(urlString)
+            .patch(formBody)
+            .build()
+
+        val client = OkHttpClient()
+        client.newCall(request).enqueue(object :Callback{
+            override fun onFailure(call: Call, e: IOException) {
+
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val jsonObj = JSONObject(response.body!!.string())
+                Log.d("회원정보 수정 응답", jsonObj.toString())
+                handler?.onResponse(jsonObj)
+            }
+        })
     }
 
+
+    }//compaion
 }
