@@ -78,7 +78,7 @@ class MainActivity : BaseActivity() {
             ServerUtil.getRequestMainInfo(token, object : ServerUtil.JsonResponseHandler{
                 override fun onResponse(jsonObj: JSONObject) {
                     val dataObj = jsonObj.getJSONObject("data")
-                    val topicsArr = jsonObj.getJSONArray("topics")
+                    val topicsArr = dataObj.getJSONArray("topics")
 
 //                    Log.d("topics", topicsArr.toString())
 

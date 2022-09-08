@@ -40,5 +40,58 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="비밀번호 변경"/>
+
+        <EditText
+            android:id="@+id/inputPwEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="변경할 비밀번호 입력"
+            android:inputType="textPassword"
+            android:imeOptions="actionNext"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/pwErrorTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="비밀번호는 8자리 이상 입력해주세요"
+            android:textSize="12sp"/>
+
+        <LinearLayout
+            android:id="@+id/changePwLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <EditText
+                android:id="@+id/currentEdt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="현재 비밀번호 입력"
+                android:inputType="textPassword"
+                android:imeOptions="actionNext"
+                android:maxLines="1"/>
+
+            <TextView
+                android:id="@+id/currentPwErrorTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="현재 비밀번호 일치시에 변경 가능"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/changePwBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="비밀번호 변경"/>
+
     </LinearLayout>
 </layout>
