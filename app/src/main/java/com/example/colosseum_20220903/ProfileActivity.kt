@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import com.example.colosseum_20220903.databinding.ActivityProfileBinding
 import com.example.colosseum_20220903.datas.UserData
@@ -39,7 +40,7 @@ class ProfileActivity : BaseActivity(){
                 .setPositiveButton("저장", DialogInterface.OnClickListener { dialogInterface, i ->
 //                    서버에 사용자가 작성한 닉네임으로  변경 이벤트 처리
                     val inputNick = inputNickEdt.text.toString()
-                    changeUserData(inputNick)
+                    changeUserData(null, null, inputNick)
                 })
                 .setNegativeButton("취소", null)
                 .show()
@@ -53,6 +54,24 @@ class ProfileActivity : BaseActivity(){
 //
 //            alert.show()
         }
+
+//      비밀번호 변경 에딧텍스트 입력시 현재 비밀번호 입력 레이아웃 비져빌러티 변경
+        binding.inputPwEdt.addTextChangedListener {
+            if(it.toString().isNotBlank()){
+                binding.changePwLayout.visibility = View.VISIBLE
+            }
+            else{
+                binding.changePwLayout.visibility = View.GONE
+            }
+        }
+
+        binding.changePwBtn.setOnClickListener {
+            val currentPw = binding.currentEdt.text.toString()
+            val inputPw = binding.inputPwEdt.text.toString()
+            val token = ContextUtil.getLoginToken(mContext)
+
+            changeUserData(currentPw, inputPw, null)
+        }
     }
 
     override fun setValues() {
@@ -61,19 +80,27 @@ class ProfileActivity : BaseActivity(){
         backIcon.visibility = View.VISIBLE
     }
 
-    fun changeUserData(nick : String){
+    fun changeUserData(currentPw : String?, newPw : String?, nick : String){
         val token = ContextUtil.getLoginToken(mContext)
-        ServerUtil.patchRequestChangeProfile(token, nick, object  : ServerUtil.JsonResponseHandler{
+        ServerUtil.patchRequestChangeProfile(
+            token, currentPw, newPw, nick, object  : ServerUtil.JsonResponseHandler{
             override fun onResponse(jsonObj: JSONObject) {
                 val code = jsonObj.getInt("code")
                 val message = jsonObj.getString("message")
                 if(code==200){
                     val dataObj = jsonObj.getJSONObject("data")
                     val userObj = jsonObj.getJSONObject("user")
+                    val token = dataObj.getString("token")
                     GlobalData.loginUser = UserData.getUserDataFromJsom(userObj)
+
+                    ContextUtil.setLoginToken(mContext, token)
+
                     //사용자가 설정한 닉네임으로 닉네임이 변경되야함
                     runOnUiThread {
                         Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                        binding.changePwLayout.visibility = View.GONE
+                        binding.currentEdt.setText("")
+                        binding.inputPwEdt.setText("")
                         binding.nickTxt.text = GlobalData.loginUser!!.nick
                     }
                 }
@@ -81,6 +108,7 @@ class ProfileActivity : BaseActivity(){
                     //기존의 닉네임을 그대로 다시 썼다면 중복된 유저 닉네임이 있다는 에러코드가 뜨므로 그 때에는
                     runOnUiThread {
                         Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+//                  [도전과제]비밀번호 변경시 메시지를 에딧텍스트 아래쪽에 있는 텍스트뷰에 배치
                     }
                 }
             }
