@@ -246,6 +246,33 @@ class ServerUtil {
         })
     }
 
+    fun deleteRequestDeleteUser(token: String, text : String, handler : JsonResponseHandler?){
+        val urlBuilder = "${BASE_URL}/user".toHttpUrlOrNull()!!.newBuilder()
+            .addEncodedQueryParameter("text", text)
+            .build()
+
+        val urlString = urlBuilder.toString()
+
+        val request = Request.Builder()
+            .url(urlString)
+            .delete()
+            .header("X-Http-Token", token)
+            .build()
+
+        val client = OkHttpClient()
+        client.newCall(request).enqueue(object : Callback{
+            override fun onFailure(call: Call, e: IOException) {
+
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val jsonObj = JSONObject(response.body!!.string())
+                Log.d("회원탈퇴 서버 응답", jsonObj.toString() )
+                handler?.onResponse(jsonObj)
+
+            }
+        })
+    }
 
     }//compaion
 }

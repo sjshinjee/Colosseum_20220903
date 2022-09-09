@@ -6,13 +6,6 @@
     android:layout_height="wrap_content"
     android:padding="20dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="닉네임 변경"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"/>
 
     <EditText
         android:id="@+id/nickEdt"

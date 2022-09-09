@@ -1,11 +1,13 @@
 package com.example.colosseum_20220903
 
 import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
@@ -36,6 +38,7 @@ class ProfileActivity : BaseActivity(){
             val inputNickEdt = customView.findViewById<EditText>(R.id.nickEdt)
 
             val alert = AlertDialog.Builder(mContext)
+                .setTitle("닉네임 변경")
                 .setView(customView)
                 .setPositiveButton("저장", DialogInterface.OnClickListener { dialogInterface, i ->
 //                    서버에 사용자가 작성한 닉네임으로  변경 이벤트 처리
@@ -65,12 +68,53 @@ class ProfileActivity : BaseActivity(){
             }
         }
 
+//      비밀번호 변경 이벤트 처리
         binding.changePwBtn.setOnClickListener {
             val currentPw = binding.currentEdt.text.toString()
             val inputPw = binding.inputPwEdt.text.toString()
             val token = ContextUtil.getLoginToken(mContext)
 
             changeUserData(currentPw, inputPw, null)
+        }
+
+//      회원탈퇴 이벤트 처리
+        binding.deleteBtn.setOnClickListener {
+            val customView = LayoutInflater.from(mContext).inflate(R.layout.custom_alert_dialog, null)
+
+            val inputNickEdt = customView.findViewById<EditText>(R.id.nickEdt)
+
+            inputNickEdt.hint = "'동의'라고 작성해주세요"
+
+            val alert = AlertDialog.Builder(mContext)
+                .setView(customView)
+                .setTitle("회원 탈퇴")
+                .setMessage("탈퇴하려면 '동의'를 작성해주세요")
+                .setPositiveButton("저장", DialogInterface.OnClickListener { dialogInterface, i ->
+
+                    val text = inputNickEdt.text.toString()
+                    val token = ContextUtil.getLoginToken(mContext)
+
+                    ServerUtil.deleteRequestDeleteUser(token, text, object :ServerUtil.JsonResponseHandler{
+                        override fun onResponse(jsonObj: JSONObject) {
+                            val message = jsonObj.getString("message")
+
+//                      탈퇴 성공 후 글로벌 데이터와 컨택스트 유틸 모두 정리 필요
+                            GlobalData.loginUser = null
+                            ContextUtil.clear(mContext)
+
+                            runOnUiThread {
+//                              탈퇴 성공 후에는 로그인 액티비티로 이동 (액티비티 스택을 모두 제거한 상태로)
+                                val myIntent = Intent(mContext, LoginActivity::class.java)
+                                startActivity(myIntent)
+                                finishAffinity()  //액의 스택으로 쌓인 모든 액티비티를 종료하는 함수
+
+                                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    })
+                })
+                .setNegativeButton("취소", null)
+                .show()
         }
     }
 
