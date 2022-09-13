@@ -30,6 +30,7 @@ class TopicRecyclerAdapter(
         }
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val row = LayoutInflater.from(mContext).inflate(R.layout.topic_list_item, parent,false)
         return MyViewHolder(row)
