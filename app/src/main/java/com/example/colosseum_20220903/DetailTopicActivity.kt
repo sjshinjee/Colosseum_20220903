@@ -15,3 +15,5 @@ class DetailTopicActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail_topic)
     }
 }
+
+
