@@ -9,7 +9,7 @@ class UserData {
     var nick = ""
 
     companion object{
-        fun getUserDataFromJsom(jsonObj : JSONObject) : UserData {
+        fun getUserDataFromJson(jsonObj : JSONObject) : UserData {
             val userData = UserData()
             userData.id = jsonObj.getInt("id")
             userData.email = jsonObj.getString("email")
