@@ -44,6 +44,7 @@
         android:background="@color/gray"/>
 
     <TextView
+        android:id="@+id/contentTxt"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="내용자리"
@@ -63,6 +64,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/replyCountTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/gray_border_box"
@@ -74,6 +76,7 @@
             android:layout_weight="1"/>
 
         <TextView
+            android:id="@+id/likeCountTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/gray_border_box"
@@ -81,6 +84,7 @@
 
 
         <TextView
+            android:id="@+id/dislikeCountTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
