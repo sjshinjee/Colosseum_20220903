@@ -305,9 +305,39 @@ class ServerUtil {
 
     }
 
+//   토론 주제별 상세 조회하기
+    fun getRequestTopicDetail(token:String, topicId:Int, orderType:String, handler:JsonResponseHandler?){
+        val urlBuilder = "${BASE_URL}/topic".toHttpUrlOrNull()!!.newBuilder()
+
+//      주소양식들 봐라 or
+        urlBuilder.addEncodedQueryParameter("order_type", orderType)
+        urlBuilder.addPathSegment(topicId.toString())
+
+        val urlString = urlBuilder.toString()
+
+        Log.d("완성된 주소", urlString)
+
+        val request = Request.Builder()
+            .url(urlString)
+            .get()
+            .header("X-Http-Token", token)
+            .build()
+
+        val client = OkHttpClient()
+        client.newCall(request).enqueue(object : Callback{
+            override fun onFailure(call: Call, e: IOException) {
+
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val jsonObj = JSONObject(response.body!!.string())
+                Log.d("주제 전문 응답", jsonObj.toString())
+                handler?.onResponse(jsonObj)
+            }
+        })
+        }
 
 
 
-
-    }//compaion
+    }//companion
 }
