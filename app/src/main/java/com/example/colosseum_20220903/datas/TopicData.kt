@@ -13,6 +13,9 @@ class TopicData : Serializable {
     var imageUrl = ""
     var replyCount = 0
 
+//  토론주제(토픽데이터)의 하위 항목으로 선택진영(사이드데이터)목록(어레이) 존재
+    val sideList = ArrayList<SideData>()
+
     companion object{
 //  주제 정보를 담고있는 JSONObject가 들어오면 하나의 토픽데이터로 변환해주는 함수
 //  다른 화면에서는 이 함수를 빌려 사용하도록 (컴패니언객체로)
@@ -23,6 +26,16 @@ class TopicData : Serializable {
             topicData.title = jsonObj.getString("title")
             topicData.imageUrl = jsonObj.getString("img_url")
             topicData.replyCount = jsonObj.getInt("reply_count")
+
+            val sideArr = jsonObj.getJSONArray("sides")
+            for(i in 0 until sideArr.length()) {
+                val sideObj = sideArr. getJSONObject(i)
+
+                val sideData = SideData.getSideDataFromJson(sideObj)
+
+                topicData.sideList.add(sideData)
+            }
+
 
             return topicData
         }

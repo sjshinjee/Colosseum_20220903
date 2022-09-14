@@ -29,7 +29,11 @@ class DetailTopicActivity : BaseActivity() {
         topicData = intent.getSerializableExtra("topicData") as TopicData
 
         Glide.with(mContext).load(topicData.imageUrl).into(binding.backgroundImg)
-        binding.side1Txt
+        binding.side1Txt.text = topicData.sideList[0].title
+        binding.vote1CountTxt.text = "${topicData.sideList[0].voteCount}표"
+
+        binding.side2Txt.text = topicData.sideList[1].title
+        binding.vote2CountTxt.text = "${topicData.sideList[1].voteCount}표"
     }
 }
 

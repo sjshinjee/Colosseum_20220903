@@ -10,7 +10,7 @@ class SideData : Serializable {
     var voteCount = 0
 
     companion object{
-        fun getSideDataFromJsom (jsonObj: JSONObject) : SideData{
+        fun getSideDataFromJson (jsonObj: JSONObject) : SideData{
             val sideData : SideData()
             sideData.id = jsonObj.getInt("id")
             sideData.title = jsonObj.getString("title")
