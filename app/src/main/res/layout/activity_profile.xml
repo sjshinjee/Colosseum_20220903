@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        tools:context=".ProfileActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="닉네임"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/nickTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="닉네임 자리"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/changeNickBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="닉네임 변경"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="비밀번호 변경"/>
+
+        <EditText
+            android:id="@+id/inputPwEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="변경할 비밀번호 입력"
+            android:inputType="textPassword"
+            android:imeOptions="actionNext"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/pwErrorTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="비밀번호는 8자리 이상 입력해주세요"
+            android:textSize="12sp"/>
+
+        <LinearLayout
+            android:id="@+id/changePwLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <EditText
+                android:id="@+id/currentEdt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="현재 비밀번호 입력"
+                android:inputType="textPassword"
+                android:imeOptions="actionNext"
+                android:maxLines="1"/>
+
+            <TextView
+                android:id="@+id/currentPwErrorTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="현재 비밀번호 일치시에 변경 가능"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/changePwBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="비밀번호 변경"/>
+
+        <Button
+            android:id="@+id/deleteBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#ff0000"
+            android:text="회원 탈퇴"/>
+
+    </LinearLayout>
+</layout>
