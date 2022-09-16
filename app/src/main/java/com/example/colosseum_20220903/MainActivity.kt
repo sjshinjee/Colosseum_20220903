@@ -4,6 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -21,7 +24,6 @@ class MainActivity : BaseActivity() {
     lateinit var binding : ActivityMainBinding
 
     val mTopicList= ArrayList<TopicData>()
-
     lateinit var mTopicAdapter : TopicRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,11 +35,11 @@ class MainActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+//      로그아웃 클릭 이벤트
         binding.logoutBtn.setOnClickListener {
             ContextUtil.clear(mContext)
 
 //            GlobalData.loginUser = null
-
 //            ContextUtil.setLoginToken(mContext, "")
 
             val myIntent = Intent(mContext, LoginActivity::class.java)
@@ -45,10 +47,16 @@ class MainActivity : BaseActivity() {
             finish()
         }
 
+//      내 정보 화면으로 이동(커스텀 액션바의 아이콘 클릭이벤트 활용)
+        profileIcon.setOnClickListener {
+            val myIntent = Intent()
+        }
+
     }
 
 
     override fun setValues() {
+        profileIcon.visibility = View.VISIBLE
          setCustomActionBar()
          getTopicListFromServer()
 
@@ -99,11 +107,26 @@ class MainActivity : BaseActivity() {
         }
 
     fun setCustomActionBar (){
+//      기존 액션바를 담아줄 변수
         val defaultActionBar = supportActionBar!!
+
+//      기존 액션바를 커스텀 모드로 변경 > 만든 커스텀액션바 xml로 적용
+//        액션바는 Androidx에서 주는 걸로 자동 완성
         defaultActionBar.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         defaultActionBar.setCustomView(R.layout.custom_action_bar)
 
+//      툴바를 찾아내서 > 양 옆의 여백 제거 > 모든 영역이 커스텀 뷰
+//      툴바 찾는다 > 액셔바의 부모> Androidx에서 제공하는 툴바 형 변환
         val myToolbar = defaultActionBar.customView.parent as Toolbar
         myToolbar.setContentInsetsAbsolute(0,0)
+
+        val backBtn = defaultActionBar.customView.findViewById<ImageView>(R.id.backIcon)
+        val profileIcon = defaultActionBar.customView.findViewById<ImageView>(R.id.profileIcon)
+        val titleTxt = defaultActionBar.customView.findViewById<TextView>(R.id.titleTxt)
+
+        profileIcon.visibility = View.VISIBLE
+
     }
+
+
 }
