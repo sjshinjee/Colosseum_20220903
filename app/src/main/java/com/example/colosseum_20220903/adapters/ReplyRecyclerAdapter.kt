@@ -6,9 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.colosseum_20220903.DetailTopicActivity
 import com.example.colosseum_20220903.R
 import com.example.colosseum_20220903.datas.ReplyData
 import com.example.colosseum_20220903.datas.TopicData
+import com.example.colosseum_20220903.utils.ContextUtil
+import com.example.colosseum_20220903.utils.ServerUtil
+import org.json.JSONObject
 
 class ReplyRecyclerAdapter(
     val mContext : Context, val mList : List<ReplyData>
@@ -37,8 +41,40 @@ class ReplyRecyclerAdapter(
 //          [시간 나면] 좋아요, 싫어요 버튼 클릭 이벤트 처리
 //          1 drawable생성 > red_border blud_border
 //          2 마이라이크/디스라이크의 속성(불린값)에 따라 좋아요>red_border 싫어요>blue_border
+            if(item.myLike){
+                likeCountTxt.setBackgroundResource(R.drawable.red_border_box)
+            }
+            else{
+                likeCountTxt.setBackgroundResource(R.drawable.gray_border_box)
+            }
+
+            if(item.myDisLike){
+                dislikeCountTxt.setBackgroundResource(R.drawable.blue_border_box)
+            }
+            else{
+                dislikeCountTxt.setBackgroundResource(R.drawable.gray_border_box)
+
+            }
 //          3 클릭 이벤트 통해서 그 댓글의 좋아요 싫어요에 대한 서버 응답을 작성
+            val token= ContextUtil.getLoginToken(mContext)
+
+            likeCountTxt.setOnClickListener {
+                ServerUtil.postRequestReplyLike(token, item.id, 1, object :ServerUtil.JsonResponseHandler{
+                    override fun onResponse(jsonObj: JSONObject) {
+                        (mContext as DetailTopicActivity).getTopicDetailFromServer()
+                    }
+                })
+            }
+
+            dislikeCountTxt.setOnClickListener {
+                ServerUtil.postRequestReplyLike(token, item.id,0, object :ServerUtil.JsonResponseHandler{
+                    override fun onResponse(jsonObj: JSONObject) {
+                        (mContext as DetailTopicActivity).getTopicDetailFromServer()
+                    }
+                })
+            }
 //          힌트, 뷰의 백그라운드리소스 변경
+
 
         }
     }
