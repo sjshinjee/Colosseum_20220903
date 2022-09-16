@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -100,10 +101,16 @@ class MainActivity : BaseActivity() {
 
     fun setCustomActionBar (){
         val defaultActionBar = supportActionBar!!
+//      기존 액션바를 커스텀 모드로 변경 > 커스텀액션바xml로 적용
         defaultActionBar.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         defaultActionBar.setCustomView(R.layout.custom_action_bar)
 
+//      Toolbar를 찾아내서 > 양 옆의 여백 제거 > 모든 영역이 커스텀 뷰
+//      Toolbar찾는다 >  액션바의 부모> Androidx에서 제공하는 Toolbar형 변환
         val myToolbar = defaultActionBar.customView.parent as Toolbar
         myToolbar.setContentInsetsAbsolute(0,0)
+
+        val backBtn = defaultActionBar.customView.findViewById<ImageView>(R.id.backIcon)
+
     }
 }
